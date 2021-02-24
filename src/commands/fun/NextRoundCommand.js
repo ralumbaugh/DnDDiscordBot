@@ -9,7 +9,7 @@ module.exports = class NextCommand extends BaseCommand {
   async run(client, message) {
     if(client.initiative.length == 0)
     {
-      message.channel.send("Nobody's joined the fight yet. Feel free to add someone by saying 'Yo SG, AddPlayer <name> <HP> <AC> <Dex Bonus>' For example: Yo SG, AddPlayer Quest 57 18 3");
+      message.channel.send("Nobody's joined the fight yet. Feel free to add someone by saying 'Yo SG, AddToInitiative <name> <initiative roll>' For example: Yo SG, AddToInitiative Quest 20");
     }
     try {
       const InitiativeCard = new Discord.MessageEmbed()

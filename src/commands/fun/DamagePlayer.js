@@ -1,4 +1,5 @@
 const BaseCommand = require('../../utils/structures/BaseCommand');
+const Remove = require('../fun/RemoveFromInitiative');
 
 module.exports = class DamageCommand extends BaseCommand {
   constructor() {
@@ -18,6 +19,7 @@ module.exports = class DamageCommand extends BaseCommand {
           DefenderFound =  true;
         }
         if(DefenderFound == true){
+          let remove = new Remove();
           if(Number(Defender.HP) > 0){
               message.channel.send(`${Defender.Name} takes ${args[1]} damage.`);
               Defender.HP -= args[1];
@@ -33,13 +35,15 @@ module.exports = class DamageCommand extends BaseCommand {
                 Defender.IsConscious = false;
                 Defender.IsAlive = false;
                 message.channel.send(`That much damage kills ${Defender.Name} outright.`);
+                remove.run(client, message, [Defender.Name]);
               }
           }
-          else{
+          else if(Defender.IsAlive){
               console.log(`Damage taken: ${args[1]} Max HP:${Defender.MaxHP}`);
-              if(Number(args[1]) >= Number(Defender.MaxHP)){
+              if(Number(args[1]) >= Number(Defender.MaxHP) + Number(Defender.HP)){
                 Defender.IsAlive == false;
                 message.channel.send(`${Defender.Name} takes the hit. ${Defender.Name} has died`);
+                remove.run(client, message, [Defender.Name]);
               }
               else{
                 message.channel.send(`${Defender.Name}'s unconscious body takes the hit.`);
